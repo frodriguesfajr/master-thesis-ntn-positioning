@@ -1,85 +1,718 @@
-# Deep Learning Based Automatic Modulation Recognition: Models, Datasets, and Challenges
-Source code for the paper "Deep Learning Based Automatic Modulation Recognition: Models, Datasets, and Challenges", which is published in Digital Signal Processing.
+# Reproducibility
 
-Representative and up-to-date models in the AMR field are implemented on four different datasets (RML2016.10a, RML2016.10b, RML2018.01a, HisarMod2019.1), providing a unified reference for interested researchers.
+This directory contains information required to reproduce the MATLAB simulations associated with the master's dissertation:
 
-The article is available here:[Deep Learning Based Automatic Modulation Recognition: Models, Datasets, and Challenges](https://www.sciencedirect.com/science/article/pii/S1051200422002676?via%3Dihub)
+**“Análise do Desempenho de Posicionamento em Redes Não Terrestres Baseada no Limite de Cramér–Rao”**
 
-If you have any question, please contact e-mail: zhangxx8023@gmail.com
+The simulations investigate positioning performance using synthetic and controlled geometries composed of HAPS, LEO, MEO, and GEO transmitters.
 
-# Abstract
-Automatic modulation recognition (AMR) detects the modulation scheme of the received signals for further signal processing without needing prior information, and provides the essential function when such information is missing. Recent breakthroughs in deep learning (DL) have laid the foundation for developing high-performance DL-AMR approaches for communications systems. Comparing with traditional modulation detection methods, DL-AMR approaches have achieved promising performance including high recognition accuracy and low false alarms due to the strong feature extraction and classification abilities of deep neural networks. Despite the
-promising potential, DL-AMR approaches also bring concerns to complexity and explainability, which affect the practical deployment in wireless communications systems. This paper aims
-to present a review of the current DL-AMR research, with a focus on appropriate DL models and benchmark datasets. We further provide comprehensive experiments to compare the state of
-the art models for single-input-single-output (SISO) systems from both accuracy and complexity perspectives, and propose to apply DL-AMR in the new multiple-input-multiple-output (MIMO)
-scenario with precoding. Finally, existing challenges and possible future research directions are discussed.
+The main scripts are:
 
-# Content
-## Experimental comparison for SISO system
-### Accuracy
-![Recognition accuracy comparison of the state-of-the-art models on (a) RML2016.10a, (b) RML2016.10b, (c) RML2018.01a, (d) HisarMod2019.1](https://user-images.githubusercontent.com/56213845/200261454-dda0332e-6134-49de-b89f-cf543f56bac9.png)
-**Fig.1** Recognition accuracy comparison of the state-of-the-art models on (a) RML2016.10a, (b) RML2016.10b, (c) RML2018.01a, (d) HisarMod2019.1.
+```text
+scenario1.m
+scenario2.m
+scenario3.m
+scenario3a.m
+```
 
-### Parameter Comparison
-**Table1** Model size and complexity comparison on the four datasets (A: RML2016.10a, B: RML2016.10b, C: RML2018.01a, D: HisarMod2019.1).
-![1667809469605](https://user-images.githubusercontent.com/56213845/200261347-2d5c9b07-ef30-4b48-a31b-881837ca57da.png)
+---
 
-### Confusion matrix
-![combine_revise2022512_r](https://user-images.githubusercontent.com/56213845/200261599-1754b267-7d7d-4ea0-beb7-a06264053686.jpg)
-**Fig.2** Confusion matrices. A, B and C represent the confusion matrices obtained on the RML2016.10a, RML2016.10b, and RML2018.01a, respectively. The numerical indexes 1 - 14 denote CNN1, CNN2, MCNET, IC-AMCNET, ResNet, DenseNet, GRU, LSTM, DAE, MCLDNN, CLDNN, CLDNN2, CGDNet, PET-CGDNN.
+# 1. Reproducibility Philosophy
 
-# Dataset
+Two different concepts of reproducibility are relevant for these simulations:
 
-**Table2** Main AMR open datasets for SISO systems.
-![1658233963147](https://user-images.githubusercontent.com/56213845/179750964-f49c2657-3348-48b2-86bc-dd3855b56378.png)
+1. **Exact reproduction of a previously generated result**
+2. **Generation of a new but reproducible random realization**
 
-| Dataset | Link |Notes |
-| :-----:| :----: | :----: |
-| [RML2016.10a, RML2016.10b](https://pubs.gnuradio.org/index.php/grcon/article/view/11), [RML2018.01a](https://ieeexplore.ieee.org/abstract/document/8267032)| [RML](http://radioml.com) | If RML2018 dataset is too large, you can use SubsampleRML2018.py to sample the dataset to get a partial dataset for experimentation. |
-| [HisarMod2019.1](https://ieeexplore.ieee.org/abstract/document/9128408) | [HisarMod](http://dx.doi.org/10.21227/8k12-2g70) | In our experiments, the dataset was converted from a .CSV file to a .MAT file, which can be found in [Link](https://pan.baidu.com/s/1ChAMTrTnhgaIBmp9NmFG-Q?pwd=s54g).|
+These two cases should not be confused.
 
+---
 
-# Related Papers
-| Model | Paper name | Publication year |
-| :-----:| :----: | :----: |
-| CNN1| [Convolutional Radio Modulation Recognition Networks](https://link.springer.com/chapter/10.1007/978-3-319-44188-7_16) | 2016  |
-|CNN2| [Robust and Fast Automatic Modulation Classification with CNN under Multipath Fading Channels](https://ieeexplore.ieee.org/abstract/document/9128408)  | 2020   |
-|MCNET| [MCNet: An Efficient CNN Architecture for Robust Automatic Modulation Classification](https://ieeexplore.ieee.org/abstract/document/8963964)  |  2020  |
-|IC-AMCNET| [CNN-Based Automatic Modulation Classification for Beyond 5G Communications](https://ieeexplore.ieee.org/abstract/document/8977561) | 2020   |
-|ResNet|[Deep neural network architectures for modulation classification](https://ieeexplore.ieee.org/abstract/document/8335483)   |  2017  |
-|DenseNet|[Deep neural network architectures for modulation classification](https://ieeexplore.ieee.org/abstract/document/8335483)    |  2017  |
-|GRU| [Automatic Modulation Classification using Recurrent Neural Networks](https://ieeexplore.ieee.org/abstract/document/8322633)  | 2017   |
-|LSTM|[Deep Learning Models for Wireless Signal Classification With Distributed Low-Cost Spectrum Sensors](https://ieeexplore.ieee.org/abstract/document/8357902)  |   2018 |
-|DAE|[Real-Time Radio Technology and Modulation Classification via an LSTM Auto-Encoder](https://ieeexplore.ieee.org/abstract/document/9487492)| 2022   |
-|MCLDNN| [A Spatiotemporal Multi-Channel Learning Framework for Automatic Modulation Recognition](https://ieeexplore.ieee.org/abstract/document/9106397)  | 2020   |
-|CLDNN|[Deep Architectures for Modulation Recognition](https://ieeexplore.ieee.org/abstract/document/7920754) |2017    |
-|CLDNN2|[Deep neural network architectures for modulation classification](https://ieeexplore.ieee.org/abstract/document/8335483)    |  2017  |
-|CGDNet| [CGDNet: Efficient Hybrid Deep Learning Model for Robust Automatic Modulation Recognition](https://ieeexplore.ieee.org/abstract/document/9349627)  | 2021   |
-|PET-CGDNN|[An Efficient Deep Learning Model for Automatic Modulation Recognition Based on Parameter Estimation and Transformation](https://ieeexplore.ieee.org/abstract/document/9507514)|2021    |
-|1DCNN-PF|[Automatic Modulation Classification Using Parallel Fusion of Convolutional Neural Networks](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=Automatic+Modulation+Classification+Using+Parallel+Fusion+of+Convolutional+Neural+Networks&btnG=)   | 2019   |
+## 1.1 Exact Reproduction
 
-# Environment
-These models are implemented in Keras, and the environment setting is:
-* Python 3.6.10
-* TensorFlow-gpu 1.14.0
-* Keras-gpu 2.2.4
+Some scenarios generate transmitter geometries using MATLAB pseudorandom-number functions such as:
 
-# Remarks
-You will need to download the appropriate dataset and change the flie path to the corresponding dataset in your code. There is no guarantee that the code can run sucessfully under other environmental configurations, but there may be performance differences due to different hardware conditions.
+```matlab
+rand
+randn
+randperm
+```
 
-About DAE: In the author's open source code, decoder uses the TimeDistributed layer. In our initial implementation, decoder unfolds the data and uses a fully connected layer to reconstruct the input, so the difference is described here. [(Source code for DAE)](https://github.com/WuLoli/LSTMDAE)  We updated the DAE source code and experimental results with TimeDistributed layer as decoder in our website.
+If a simulation was originally executed without a fixed random seed, defining a seed afterward does **not** reproduce the original realization.
 
-# Acknowledgement
-Our code is partly based on [leena201818](https://github.com/leena201818). Thanks [leena201818](https://github.com/leena201818) and [wzjialang](https://github.com/wzjialang/MCLDNN#introduction) for their great work!
+For example, adding:
 
-# Citation
-Please cite the literature we refer to if they are helpful to your work.
-If our work is helpful to your research, please cite:
+```matlab
+rng(2,'twister');
+```
 
-    @article{ZHANG2022103650,
-        title={Deep Learning Based Automatic Modulation Recognition: Models, Datasets, and Challenges},
-        author={Fuxin Zhang and Chunbo Luo and Jialang Xu and Yang Luo and FuChun Zheng},
-        journal={Digital Signal Processing},
-        year={2022},
-        doi = {https://doi.org/10.1016/j.dsp.2022.103650}
-    }
+to a script after the original simulation was performed does not guarantee reproduction of the geometry previously used in the dissertation.
+
+For exact reproduction of an already generated result, the preferred approach is to use the corresponding saved `.mat` file containing the original geometry and simulation variables.
+
+Examples include:
+
+```text
+results_scenario_01/scenario_01_results.mat
+results_scenario_02/scenario_02_results.mat
+results_scenario_03/scenario_03_results.mat
+results_scenario_04/scenario_04_results.mat
+```
+
+These files may contain variables such as:
+
+```text
+SatPool
+SatByArch
+SatLEO_extra
+archLabel
+selected
+allSelected
+allHistories
+```
+
+and therefore preserve the geometry realization associated with the corresponding simulation output.
+
+---
+
+## 1.2 Reproducible New Realizations
+
+For new simulations, a fixed random seed should be defined before any random geometry or measurement generation.
+
+For example:
+
+```matlab
+rng(2,'twister');
+```
+
+This ensures that repeated executions using the same MATLAB random-number generator and the same code generate the same pseudorandom sequence.
+
+A recommended structure is:
+
+```matlab
+close all;
+clear;
+clc;
+
+rng(2,'twister');
+```
+
+The seed should be defined **before** any call to:
+
+```matlab
+rand
+randn
+randperm
+```
+
+---
+
+# 2. MATLAB Environment
+
+The simulations were developed in MATLAB.
+
+The scripts use standard MATLAB functionality including:
+
+```text
+table
+writetable
+save
+nchoosek
+inputParser
+exportgraphics
+```
+
+No external orbital propagation software is required for the current synthetic geometry model.
+
+The scripts can be executed using either:
+
+* MATLAB Desktop;
+* MATLAB Online.
+
+For reproducibility purposes, the MATLAB release used to generate final published results should ideally be recorded.
+
+It is recommended to save the following information together with the final results:
+
+```matlab
+version
+computer
+```
+
+For example:
+
+```matlab
+fprintf('MATLAB version:\n');
+disp(version);
+
+fprintf('Computer architecture:\n');
+disp(computer);
+```
+
+---
+
+# 3. Random Geometry Generation
+
+The NTN transmitter positions used in the simulations are synthetic.
+
+For each architecture, random:
+
+* azimuths;
+* elevation angles;
+* transmitter–receiver distances
+
+are generated subject to predefined constraints.
+
+The geometry generator searches for a realization with PDOP inside a specified interval.
+
+Conceptually:
+
+```text
+random geometry
+      |
+      v
+elevation-mask constraint
+      |
+      v
+distance-range constraint
+      |
+      v
+PDOP evaluation
+      |
+      v
+accept geometry if target interval is satisfied
+```
+
+The resulting geometry therefore represents a **controlled synthetic realization**, rather than an instantaneous state of a propagated operational constellation.
+
+---
+
+# 4. Scenario 1 — Isolated Architectures
+
+Script:
+
+```text
+scenario1.m
+```
+
+Scenario 1 evaluates HAPS, LEO, MEO, and GEO separately.
+
+The experiment includes Monte Carlo simulations of pseudorange measurements and WLS positioning.
+
+The number of Monte Carlo experiments is controlled by:
+
+```matlab
+Nexpe
+```
+
+For code testing, a smaller value may be used:
+
+```matlab
+Nexpe = 500;
+```
+
+or:
+
+```matlab
+Nexpe = 1000;
+```
+
+For the final high-statistics simulation, use the value adopted for the dissertation results, for example:
+
+```matlab
+Nexpe = 50000;
+```
+
+The value of `Nexpe` should always be verified before generating final figures or tables.
+
+For a reproducible Monte Carlo run, define a seed before geometry and noise generation, for example:
+
+```matlab
+rng(1,'twister');
+```
+
+The seed used for a new reproducible run should be documented together with the generated results.
+
+---
+
+# 5. Scenario 2 — Greedy Transmitter Selection
+
+Script:
+
+```text
+scenario2.m
+```
+
+The base candidate set contains:
+
+```math
+4\,\mathrm{HAPS}
++
+8\,\mathrm{LEO}
++
+8\,\mathrm{MEO}
++
+6\,\mathrm{GEO}
+=
+26
+```
+
+candidates.
+
+The algorithm starts by evaluating all four-transmitter combinations:
+
+```math
+\binom{26}{4}
+=
+14\,950
+```
+
+The best four-transmitter subset according to the positional Cramér–Rao bound is used as the initialization of the greedy procedure.
+
+After initialization, one transmitter is added at each iteration until the target:
+
+```math
+\mathcal{B}_{\mathrm{CRB}}(\mathcal{S})
+\leq
+\epsilon
+```
+
+is satisfied or all candidates are exhausted.
+
+Because the candidate geometry is randomly generated, a different geometry realization may produce:
+
+* different transmitter IDs;
+* a different initial subset;
+* a different greedy sequence;
+* a different architecture composition;
+* a different final number of selected transmitters.
+
+For new reproducible experiments, use:
+
+```matlab
+rng(2,'twister');
+```
+
+before candidate-geometry generation.
+
+However, if the original dissertation result was generated without a fixed seed, the saved:
+
+```text
+scenario_02_results.mat
+```
+
+should be used for exact reproduction of that original geometry.
+
+---
+
+# 6. Scenario 3 — Sensitivity to Reference C/N0
+
+Script:
+
+```text
+scenario3.m
+```
+
+Scenario 3 generates one candidate geometry and keeps it fixed while varying the reference carrier-to-noise-density ratio.
+
+The reference range is:
+
+```math
+30
+\leq
+(C/N_0)_{\mathrm{ref}}
+\leq
+50
+\quad
+\mathrm{dB\!-\!Hz}
+```
+
+Keeping the geometry fixed is essential because the objective is to isolate the effect of measurement quality.
+
+Therefore, within one execution:
+
+```text
+same candidate geometry
+        +
+different C/N0 values
+        =
+measurement-quality sensitivity analysis
+```
+
+A new execution without a fixed seed may generate a different candidate geometry and therefore a different curve.
+
+For new reproducible experiments:
+
+```matlab
+rng(2,'twister');
+```
+
+should be defined before geometry generation.
+
+For exact reproduction of a previously generated experiment, use the saved:
+
+```text
+scenario_03_results.mat
+```
+
+when available.
+
+---
+
+# 7. Scenario 3a / Scenario 4 — HAPS Availability and LEO Compensation
+
+Script:
+
+```text
+scenario3a.m
+```
+
+The script currently stores its results under:
+
+```text
+results_scenario_04/
+```
+
+and saves:
+
+```text
+scenario_04_results.mat
+```
+
+The analysis is divided into two parts.
+
+---
+
+## Part A — HAPS Restriction
+
+The maximum number of HAPS allowed in the selected subset is:
+
+```math
+N_{\mathrm{HAPS,max}}
+\in
+\{4,2,0\}
+```
+
+The experiment does not necessarily remove specific HAPS from the candidate pool.
+
+Instead, the selection constraint is:
+
+```math
+N_{\mathrm{HAPS}}(\mathcal{S})
+\leq
+N_{\mathrm{HAPS,max}}
+```
+
+Thus, for example, when:
+
+```math
+N_{\mathrm{HAPS,max}}=2
+```
+
+the algorithm can select the best two HAPS among the available HAPS candidates.
+
+---
+
+## Part B — LEO Compensation
+
+HAPS are excluded from the selected configuration and LEO availability is increased according to:
+
+```math
+N_{\mathrm{LEO}}
+\in
+\{8,12,16,20\}
+```
+
+The candidate LEO sets are nested.
+
+Therefore:
+
+```math
+\mathcal{C}_{8}
+\subset
+\mathcal{C}_{12}
+\subset
+\mathcal{C}_{16}
+\subset
+\mathcal{C}_{20}
+```
+
+This ensures that the analysis represents progressively increasing LEO availability rather than generating a completely independent LEO configuration for every case.
+
+Because both the base geometries and the additional LEO geometry are random, a fixed seed is required for reproducible new experiments.
+
+Recommended:
+
+```matlab
+rng(2,'twister');
+```
+
+For exact reproduction of a previously generated experiment, use:
+
+```text
+results_scenario_04/scenario_04_results.mat
+```
+
+when available.
+
+---
+
+# 8. Measurement Model
+
+The nominal pseudorange uncertainty is modeled from the effective carrier-to-noise-density ratio.
+
+For an architecture-dependent offset:
+
+```math
+(C/N_0)_{\mathrm{eff}}
+=
+(C/N_0)_{\mathrm{ref}}
++
+\Delta(C/N_0)
+```
+
+the pseudorange standard deviation is:
+
+```math
+\sigma_{\rho}
+=
+\frac{c}
+{2\pi\beta
+\sqrt{
+(C/N_0)_{\mathrm{linear}}
+T_{\mathrm{coh}}
+}}
+```
+
+The measurement covariance matrix is:
+
+```math
+\mathbf{R}
+=
+\mathrm{diag}
+\left(
+\sigma_{\rho_1}^{2},
+\ldots,
+\sigma_{\rho_M}^{2}
+\right)
+```
+
+and the Fisher Information Matrix is:
+
+```math
+\mathbf{J}
+=
+\mathbf{H}^{T}
+\mathbf{R}^{-1}
+\mathbf{H}
+```
+
+The positional bound is calculated as:
+
+```math
+\mathcal{B}_{\mathrm{CRB}}
+=
+\sqrt{
+\mathrm{tr}
+\left(
+[\mathbf{J}^{-1}]_{1:3,1:3}
+\right)
+}
+```
+
+---
+
+# 9. Important Parameters to Record
+
+When generating final results, the following parameters should be recorded together with the output:
+
+```text
+random seed
+MATLAB version
+simulation script version / Git commit
+number of Monte Carlo experiments
+C/N0 range
+C/N0 architecture offsets
+coherent integration time
+code bandwidth
+positioning target epsilon
+number of candidates per architecture
+PDOP target ranges
+elevation masks
+propagation-distance ranges
+```
+
+This allows a simulation result to be associated with a specific numerical configuration.
+
+---
+
+# 10. Git Version Control
+
+For research reproducibility, each set of final simulation results should ideally be associated with a Git commit.
+
+Before generating final results:
+
+```bash
+git status
+```
+
+Commit the exact version of the scripts:
+
+```bash
+git add .
+git commit -m "Simulation configuration for final results"
+```
+
+The corresponding commit can be obtained using:
+
+```bash
+git rev-parse HEAD
+```
+
+The commit hash provides an unambiguous reference to the exact source-code version used in the experiment.
+
+---
+
+# 11. Suggested Result Metadata
+
+A simple text file can be stored with each final simulation run.
+
+Example:
+
+```text
+Simulation: Scenario 02
+Date: YYYY-MM-DD
+MATLAB version: R20XXx
+Git commit: <commit-hash>
+Random seed: 2
+RNG generator: twister
+C/N0 reference: 50 dB-Hz
+Target epsilon: 1 m
+Candidates: 4 HAPS + 8 LEO + 8 MEO + 6 GEO
+```
+
+For Scenario 1, also record:
+
+```text
+Monte Carlo realizations: 50000
+```
+
+This makes it much easier to reproduce published tables and figures later.
+
+---
+
+# 12. Exact Results vs. Statistical Generalization
+
+The simulations in Scenarios 2, 3, and 3a should be interpreted primarily as controlled experiments on specific geometry realizations.
+
+A fixed random seed provides:
+
+```text
+repeatability
++
+controlled comparison
++
+debugging capability
+```
+
+but it does **not** provide statistical characterization over all possible geometries.
+
+A statistical robustness analysis would require repeating the complete geometry-generation and selection process over many independent realizations.
+
+For example:
+
+```math
+N_{\mathrm{MC}} = 10\,000
+```
+
+geometry realizations.
+
+For Scenario 2, the four-transmitter initialization alone would then require approximately:
+
+```math
+10\,000
+\times
+14\,950
+=
+149\,500\,000
+```
+
+subset evaluations.
+
+This does not include the subsequent greedy iterations.
+
+A large-scale geometry Monte Carlo analysis would therefore benefit from:
+
+* code optimization;
+* parallel processing;
+* vectorization;
+* reuse of intermediate calculations;
+* more efficient subset-search strategies.
+
+A GPU would only provide benefits if the implementation were explicitly redesigned to use GPU-compatible operations. The current MATLAB implementation is primarily limited by combinatorial search and CPU-side iterative computation.
+
+---
+
+# 13. Recommended Interpretation
+
+The current reproducible simulations should be described as:
+
+> **Controlled and reproducible realizations of synthetic NTN geometries used to isolate the effects of transmitter geometry, measurement quality, and availability constraints.**
+
+They should not be described as:
+
+> **A statistical representation of every possible HAPS, LEO, MEO, or GEO configuration.**
+
+A Monte Carlo analysis over the geometry itself is considered a natural extension of the present work.
+
+---
+
+# 14. Recommended Workflow
+
+For a new experiment:
+
+```text
+1. Pull the desired Git commit
+2. Verify simulation parameters
+3. Define the random seed
+4. Execute the MATLAB script
+5. Save generated .mat results
+6. Save CSV tables and figures
+7. Record MATLAB version
+8. Record Git commit
+9. Record RNG seed
+```
+
+For an exact reconstruction of a previously generated result:
+
+```text
+1. Checkout the corresponding Git commit
+2. Load the saved .mat geometry/results
+3. Avoid regenerating the random geometry
+4. Recreate tables and figures from the stored variables
+```
+
+---
+
+# 15. Scope
+
+The reproducibility procedure described here is intended to preserve the numerical experiments associated with this research.
+
+The most important distinction is:
+
+```text
+fixed RNG seed
+        |
+        v
+reproducible new realization
+```
+
+versus:
+
+```text
+saved original geometry
+        |
+        v
+exact reproduction of an existing result
+```
+
+Both approaches are useful, but they serve different purposes.
