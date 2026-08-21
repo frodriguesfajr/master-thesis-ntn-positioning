@@ -322,6 +322,17 @@ This allows the experiment to represent a progressive increase in LEO availabili
 
 ---
 
+## Defense Presentation
+
+The presentation used for the master's thesis defense is available in:
+
+`docs/defense/master_thesis_defense.pdf`
+
+The slides summarize the motivation, methodology, simulation scenarios,
+greedy transmitter-selection strategy, main results, and conclusions.
+
+---
+
 # Greedy Selection Strategy
 
 The greedy strategy used in this repository is motivated by the need to reduce the computational cost associated with exhaustive combinatorial search.
