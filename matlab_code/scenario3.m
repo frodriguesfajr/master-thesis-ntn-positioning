@@ -12,14 +12,14 @@ clc;
 format long;
 rng(2);  % reprodutibilidade do Scenario 03
 
-%% ===================== Saída ==============================================
+%% ##################### Saída ##############################################
 
 outDir = 'results_scenario_03';
 if ~exist(outDir, 'dir')
     mkdir(outDir);
 end
 
-%% ===================== Cenário do usuário =================================
+%% ##################### Cenário do usuário #################################
 
 lat = -22.8596582;      % [graus]
 lon = -43.2303236;      % [graus]
@@ -27,7 +27,7 @@ h   = 10;               % [m]
 
 UserPosition = llh2ecef(lat, lon, h);   % [x y z] ECEF [m]
 
-%% ===================== Parâmetros globais =================================
+%% ##################### Parâmetros globais #################################
 
 c     = 3e8;        % [m/s]
 beta  = 1.023e6;    % [Hz] largura de banda do código GPS C/A
@@ -39,7 +39,7 @@ epsilon = 1.0;      % precisão-alvo [m]
 scenarioNames = {'HAPS','LEO','MEO','GEO'};
 numScenarios = numel(scenarioNames);
 
-%% ===================== Tabela de candidatos disponíveis ===================
+%% ##################### Tabela de candidatos disponíveis ##################=
 
 Arquitetura = ["HAPS"; "LEO"; "MEO"; "GEO"];
 
@@ -77,7 +77,7 @@ disp(Tparam);
 writetable(Tparam, fullfile(outDir, ...
     'tabela_parametros_candidatos_disponiveis.csv'));
 
-%% ===================== Parâmetros do problema ==============================
+%% ##################### Parâmetros do problema ###########################
 
 Tsel_param = table( ...
     min(CN0_vec), ...
@@ -98,7 +98,7 @@ disp(Tsel_param);
 writetable(Tsel_param, fullfile(outDir, ...
     'tabela_parametros_varredura_cn0.csv'));
 
-%% ===================== Geração do conjunto candidato =======================
+%% ##################### Geração do conjunto candidato #####################
 
 SatPool   = [];
 archLabel = strings(0,1);
@@ -161,7 +161,7 @@ disp(Tpdop_arch);
 writetable(Tpdop_arch, fullfile(outDir, ...
     'tabela_pdop_conjuntos_candidatos.csv'));
 
-%% ===================== Varredura em C/N0 ==================================
+%% ##################### Varredura em C/N0 #############################
 
 Npoints = numel(CN0_vec);
 
@@ -212,7 +212,7 @@ for kk = 1:Npoints
         CN0_ref_dBHz, out.Total, out.BCRB_final, out.Reached);
 end
 
-%% ===================== Tabela 7.6 - Resultado da varredura =================
+%% ##################### Tabela 7.6 - Resultado da varredura #############
 
 T_CN0 = table( ...
     CN0_vec(:), ...
@@ -241,7 +241,7 @@ disp(T_CN0_viavel);
 writetable(T_CN0_viavel, fullfile(outDir, ...
     'tabela_configuracoes_viaveis_vs_cn0.csv'));
 
-%% ===================== Figura 7.5 - Total versus C/N0 ======================
+%% ##################### Figura 7.5 - Total versus C/N0 #####################
 
 N_TOTAL_feasible = N_TOTAL_vec;
 N_TOTAL_feasible(~Reached_vec) = NaN;
@@ -271,7 +271,7 @@ exportgraphics(gcf, fullfile(outDir, ...
     'fig_7_5_total_dispositivos_vs_cn0.png'), ...
     'Resolution', 300);
 
-%% ===================== Figura 7.6 - Composição viável versus C/N0 ==========
+%% ##################### Figura 7.6 - Composição viável versus C/N0 ##########
 
 if any(Reached_vec)
 
@@ -303,7 +303,7 @@ else
     warning('Nenhuma configuração atingiu a meta. Figura de composição viável não gerada.');
 end
 
-%% ===================== Figura 7.7 - BCRB final versus C/N0 ================
+%% ##################### Figura 7.7 - BCRB final versus C/N0 ################
 
 BCRB_feasible = BCRB_final_vec;
 BCRB_feasible(~Reached_vec) = NaN;
@@ -334,7 +334,7 @@ exportgraphics(gcf, fullfile(outDir, ...
     'fig_7_7_bcrb_final_vs_cn0.png'), ...
     'Resolution', 300);
 
-%% ===================== Figura 7.8 - Primeiro C/N0 viável ===================
+%% ##################### Figura 7.8 - Primeiro C/N0 viável ##################=
 
 idxFirstFeasible = find(Reached_vec, 1, 'first');
 
@@ -355,7 +355,7 @@ else
     fprintf('\nNenhum valor de C/N0 atingiu a meta.\n');
 end
 
-%% ===================== Salvar variáveis ===================================
+%% ##################### Salvar variáveis ###################################
 
 save(fullfile(outDir, 'scenario_03_results.mat'), ...
     'CN0_vec', ...
@@ -381,10 +381,10 @@ save(fullfile(outDir, 'scenario_03_results.mat'), ...
     'PDOP_final_vec', ...
     'Reached_vec');
 
-%% ===================== FUNÇÕES LOCAIS =====================================
+%% ##################### FUNÇÕES LOCAIS #####################################
 
 function ecef = llh2ecef(lat_deg, lon_deg, h_m)
-% LLH2ECEF  Converte coordenadas geodésicas WGS-84 para ECEF [x y z].
+%  Converte coordenadas geodésicas WGS-84 para ECEF [x y z].
 
     a  = 6378137.0;
     f  = 1/298.257223563;
@@ -428,7 +428,7 @@ function sigma_rho = sigmaFromCN0(CN0_dBHz, c, beta, T_coh)
 end
 
 function out = generateGeometryPDOP(UserPosition, M, varargin)
-% GENERATEGEOMETRYPDOP Gera geometria sintética visível com PDOP controlado.
+%  Gera geometria sintética visível com PDOP controlado.
 
     p = inputParser;
     p.addParameter('ElevMaskDeg', 5, @(x) isnumeric(x) && isscalar(x) && x >= 0 && x < 90);

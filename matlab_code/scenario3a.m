@@ -28,14 +28,14 @@ clc;
 format long;
 rng(2);  % reprodutibilidade
 
-%% ===================== Saída ==============================================
+%% ##################### Saída ###############################################
 
 outDir = 'results_scenario_04';
 if ~exist(outDir, 'dir')
     mkdir(outDir);
 end
 
-%% ===================== Cenário do usuário =================================
+%% ##################### Cenário do usuário ##################################
 
 lat = -22.8596582;      % [graus]
 lon = -43.2303236;      % [graus]
@@ -43,7 +43,7 @@ h   = 10;               % [m]
 
 UserPosition = llh2ecef(lat, lon, h);   % [x y z] ECEF [m]
 
-%% ===================== Parâmetros globais =================================
+%% ##################### Parâmetros globais #################################
 
 c     = 3e8;        % [m/s]
 beta  = 1.023e6;    % [Hz] largura de banda do código GPS C/A
@@ -55,7 +55,7 @@ epsilon      = 1.0; % precisão-alvo [m]
 scenarioNames = {'HAPS','LEO','MEO','GEO'};
 numScenarios = numel(scenarioNames);
 
-%% ===================== Tabela de candidatos base ==========================
+%% ##################### Tabela de candidatos base ###########################
 
 Arquitetura = ["HAPS"; "LEO"; "MEO"; "GEO"];
 
@@ -101,7 +101,7 @@ disp(Tparam);
 writetable(Tparam, fullfile(outDir, ...
     'tabela_parametros_candidatos_base.csv'));
 
-%% ===================== Parâmetros do Cenário 4 ============================
+%% ##################### Parâmetros do Cenário 4 ###########################
 
 Tscenario4 = table( ...
     CN0_ref_dBHz, ...
@@ -123,7 +123,7 @@ disp(Tscenario4);
 writetable(Tscenario4, fullfile(outDir, ...
     'tabela_parametros_cenario_04.csv'));
 
-%% ===================== Geração do conjunto candidato base =================
+%% ##################### Geração do conjunto candidato base ###############
 
 SatByArch   = cell(numScenarios,1);
 RangeByArch = cell(numScenarios,1);
@@ -188,7 +188,7 @@ disp(Tpdop_arch);
 writetable(Tpdop_arch, fullfile(outDir, ...
     'tabela_pdop_conjuntos_candidatos_base.csv'));
 
-%% ===================== Geração de LEO adicionais ==========================
+%% ##################### Geração de LEO adicionais ###########################
 
 SatLEO_extra   = [];
 RangeLEO_extra = [];
@@ -227,7 +227,7 @@ if N_LEO_extra > 0
         'tabela_candidatos_LEO_adicionais.csv'));
 end
 
-%% ===================== Parte A: Limitação de HAPS ==========================
+%% ##################### Parte A: Limitação de HAPS ###########################
 
 HAPS_max_vec_A = [4; 2; 0];
 N_LEO_avail_A  = NumDispositivosBase(2);
@@ -339,7 +339,7 @@ disp(T_HAPS_lim);
 writetable(T_HAPS_lim, fullfile(outDir, ...
     'tabela_cenario4_parteA_limitacao_HAPS.csv'));
 
-%% ===================== Parte B: Compensação por LEO ========================
+%% ##################### Parte B: Compensação por LEO ###########################
 
 LEO_avail_vec_B = [8; 12; 16; 20];
 HAPS_max_B      = 0;
@@ -458,7 +458,7 @@ disp(T_LEO_comp);
 writetable(T_LEO_comp, fullfile(outDir, ...
     'tabela_cenario4_parteB_compensacao_LEO.csv'));
 
-%% ===================== Figuras - Parte A ==================================
+%% ##################### Figuras - Parte A ####################################
 
 figure;
 hold on;
@@ -513,7 +513,7 @@ exportgraphics(gcf, fullfile(outDir, ...
     'fig_7_10_latencia_limitacao_haps.png'), ...
     'Resolution', 300);
 
-%% ===================== Figuras - Parte B ==================================
+%% ##################### Figuras - Parte B ####################################
 
 figure;
 hold on;
@@ -570,7 +570,7 @@ exportgraphics(gcf, fullfile(outDir, ...
     'fig_7_13_latencia_compensacao_leo.png'), ...
     'Resolution', 300);
 
-%% ===================== Salvar variáveis ===================================
+%% ##################### Salvar variáveis ####################################
 
 save(fullfile(outDir, 'scenario_04_results.mat'), ...
     'CN0_ref_dBHz', ...
@@ -594,10 +594,10 @@ save(fullfile(outDir, 'scenario_04_results.mat'), ...
     'allHistories_B', ...
     'allSelected_B');
 
-%% ===================== FUNÇÕES LOCAIS =====================================
+%% ##################### FUNÇÕES LOCAIS #######################################
 
 function ecef = llh2ecef(lat_deg, lon_deg, h_m)
-% LLH2ECEF  Converte coordenadas geodésicas WGS-84 para ECEF [x y z].
+%   Converte coordenadas geodésicas WGS-84 para ECEF [x y z].
 
     a  = 6378137.0;
     f  = 1/298.257223563;
@@ -620,7 +620,7 @@ end
 
 function [SatPool_case, archLabel_case, rangePool_case] = buildCasePool( ...
     SatByArch, RangeByArch, SatLEO_extra, RangeLEO_extra, N_LEO_avail)
-% BUILDCASEPOOL --> Monta o conjunto candidato de um caso.
+%  Monta o conjunto candidato de um caso.
 %
 % HAPS, MEO e GEO são mantidos com a disponibilidade base.
 % O número de LEO disponíveis pode variar, usando primeiro os LEO base
@@ -660,7 +660,7 @@ end
 
 function sigmaPool = buildSigmaPoolFromLabels(CN0_ref_dBHz, archLabel, ...
     scenarioNames, Delta_CN0_rel_dB, c, beta, T_coh)
-% BUILDSIGMAPOOL Fixa um sigma de pseudodistância por arquitetura.
+%  Fixa um sigma de pseudodistância por arquitetura.
 
     sigmaPool = zeros(numel(archLabel),1);
 
@@ -685,7 +685,7 @@ function sigma_rho = sigmaFromCN0(CN0_dBHz, c, beta, T_coh)
 end
 
 function out = generateGeometryPDOP(UserPosition, M, varargin)
-% GENERATEGEOMETRYPDOP Gera geometria sintética visível com PDOP controlado.
+%  Gera geometria sintética visível com PDOP controlado.
 
     p = inputParser;
     p.addParameter('ElevMaskDeg', 5, @(x) isnumeric(x) && isscalar(x) && x >= 0 && x < 90);

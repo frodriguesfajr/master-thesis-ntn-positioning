@@ -8,14 +8,14 @@ clc;
 format long;
 %rng(1);  % reprodutibilidade
 
-%% ===================== Saída ==============================================
+%% ##################### Saída ##########################################
 
 outDir = 'results_scenario_01';
 if ~exist(outDir, 'dir')
     mkdir(outDir);
 end
 
-%% ===================== Cenário do usuário =================================
+%% ##################### Cenário do usuário ###############################
 
 lat = -22.8596582;      % [graus]
 lon = -43.2303236;      % [graus]
@@ -23,7 +23,7 @@ h   = 10;               % [m]
 
 UserPosition = llh2ecef(lat, lon, h);   % [x y z] ECEF [m]
 
-%% ===================== Parâmetros globais =================================
+%% ##################### Parâmetros globais ###############################
 
 CNosim = 30:1:50;       % C/N0 de referência [dB-Hz]
 
@@ -45,7 +45,7 @@ numSV_all     = zeros(numScenarios, 1);
 offset_all    = zeros(numScenarios, 1);
 PosErr_MC_all = zeros(numScenarios, numel(CNosim), Nexpe);
 
-%% ===================== Tabela de parâmetros dos cenários ===================
+%% ##################### Tabela de parâmetros dos cenários ##########
 
 Arquitetura = ["HAPS"; "LEO"; "MEO"; "GEO"];
 
@@ -81,13 +81,13 @@ disp(Tparam);
 
 writetable(Tparam, fullfile(outDir, 'tabela_parametros_cenarios_isolados.csv'));
 
-%% ===================== Loop dos cenários ==================================
+%% ##################### Loop dos cenários ###############################
 
 for sc = 1:numScenarios
 
     scenario = scenarioNames{sc};
 
-    %% --------------------- Configuração do cenário ------------------------
+    %% ########### Configuração do cenário ###########
 
     % A tabela Tparam é a fonte única dos parâmetros do cenário.
     CN0_offset  = Delta_CN0_rel_dB(sc);
@@ -100,7 +100,7 @@ for sc = 1:numScenarios
     numSV_all(sc)  = numSV;
     offset_all(sc) = CN0_offset;
 
-    %% --------------------- Geração da geometria ---------------------------
+    %% ########### Geração da geometria ###########
 
     geom = generateGeometryPDOP(UserPosition, numSV, ...
         'ElevMaskDeg', elevMaskDeg, ...
@@ -118,7 +118,7 @@ for sc = 1:numScenarios
     dXYZ = SatPosition - UserPosition;
     distances = sqrt(sum(dXYZ.^2, 2)).';
 
-    %% --------------------- Estrutura do estimador WLS ---------------------
+    %% ########### Estrutura do estimador WLS ###########
 
     wls_input.UserPosition  = UserPosition;
     wls_input.SatPosition   = SatPosition;
@@ -127,7 +127,7 @@ for sc = 1:numScenarios
 
     PosErrWLS = zeros(numel(CNosim), Nexpe);
 
-    %% --------------------- Loop de C/N0 -----------------------------------
+    %% ########### Loop de C/N0 ###########
 
     for CNo_idx = 1:numel(CNosim)
 
@@ -180,7 +180,7 @@ for sc = 1:numScenarios
     PosErr_MC_all(sc,:,:) = PosErrWLS;
 end
 
-%% ===================== Tabela de PDOP obtido ==============================
+%% ##################### Tabela de PDOP obtido #####################
 
 Tpdop = table( ...
     string(scenarioNames(:)), ...
@@ -195,7 +195,7 @@ disp(Tpdop);
 
 writetable(Tpdop, fullfile(outDir, 'tabela_pdop_obtido.csv'));
 
-%% ===================== Tabelas completas por arquitetura ===================
+%% ##################### Tabelas completas por arquitetura ##########
 
 ratio_all = RMSE_WLS_all ./ BCRB_all;
 
@@ -214,7 +214,7 @@ for sc = 1:numScenarios
         sprintf('tabela_%s_rmse_bcrb.csv', lower(scenarioNames{sc}))));
 end
 
-%% ===================== Tabela resumida em C/N0 selecionados ===============
+%% ##################### Tabela resumida em C/N0 selecionados ##########
 
 CN0_sel = [30 35 40 45 50];
 idx_sel = arrayfun(@(x) find(CNosim == x, 1), CN0_sel);
@@ -264,7 +264,7 @@ disp(Tsummary);
 
 writetable(Tsummary, fullfile(outDir, 'tabela_resumo_cn0_selecionados.csv'));
 
-%% ===================== C/N0 mínimo de eficiência ===========================
+%% ##################### C/N0 mínimo de eficiência ###############################
 
 effThreshold = 1.10;   % RMSE até 10% acima de BCRB
 
@@ -301,7 +301,7 @@ disp(T_eff);
 
 writetable(T_eff, fullfile(outDir, 'tabela_cn0_min_eficiencia_wls.csv'));
 
-%% ===================== Figura 7.1 - RMSE vs BCRB por arquitetura ==========
+%% ##################### Figura 7.1 - RMSE vs BCRB por arquitetura ##########
 
 figure;
 
@@ -336,7 +336,7 @@ exportgraphics(gcf, fullfile(outDir, ...
     'fig_7_1_rmse_wls_vs_bcrb_2x2.png'), ...
     'Resolution', 300);
 
-%% ===================== Figura 7.2 - CDF 2x2 em C/N0 de referência =========
+%% ##################### Figura 7.2 - CDF 2x2 em C/N0 de referência ##########
 
 CN0_ref_CDF = 50;
 idx_CDF = find(CNosim == CN0_ref_CDF, 1);
@@ -371,7 +371,7 @@ exportgraphics(gcf, fullfile(outDir, ...
     'fig_7_2_cdf_2x2_cn0_50_dbhz.png'), ...
     'Resolution', 300);
 
-%% ===================== Tabela - Percentis em C/N0 de referência ============
+%% ##################### Tabela - Percentis em C/N0 de referência ##########
 
 CN0_ref_CDF = 50;
 idx_CDF = find(CNosim == CN0_ref_CDF, 1);
@@ -405,7 +405,7 @@ disp(TCDF_ref);
 writetable(TCDF_ref, fullfile(outDir, ...
     'tabela_percentis_cdf_cn0_50_dbhz.csv'));
 
-%% ===================== Salvar variáveis ===================================
+%% ##################### Salvar variáveis ###############################====
 
 save(fullfile(outDir, 'scenario_01_results.mat'), ...
     'CNosim', ...
@@ -423,10 +423,10 @@ save(fullfile(outDir, 'scenario_01_results.mat'), ...
     'T_eff', ...
     'TCDF_ref');
 
-%% ===================== FUNÇÕES LOCAIS =====================================
+%% ##################### FUNÇÕES LOCAIS ###############################======
 
 function ecef = llh2ecef(lat_deg, lon_deg, h_m)
-% LLH2ECEF  Converte coordenadas geodésicas WGS-84 para ECEF [x y z].
+%   Converte coordenadas geodésicas WGS-84 para ECEF [x y z].
 
     a  = 6378137.0;
     f  = 1/298.257223563;
@@ -489,7 +489,7 @@ function pos_est_wls = conv2stepsPVT_WLS(wls_input)
 end
 
 function out = generateGeometryPDOP(UserPosition, M, varargin)
-% GENERATEGEOMETRYPDOP Gera geometria sintética visível com PDOP controlado.
+%  Gera geometria sintética visível com PDOP controlado.
 
     p = inputParser;
     p.addParameter('ElevMaskDeg', 5, @(x) isnumeric(x) && isscalar(x) && x >= 0 && x < 90);
@@ -637,7 +637,7 @@ function [H, PDOP, u, d] = localGeometryAndPDOP(UserPosition, SatPosition)
 end
 
 function val = percentileValue(x, p)
-% PERCENTILEVALUE Calcula percentil sem depender de toolboxes adicionais.
+%  Calcula percentil sem depender de toolboxes adicionais.
 
     x = sort(x(:));
     n = numel(x);

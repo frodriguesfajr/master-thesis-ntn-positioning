@@ -8,14 +8,14 @@ clc;
 format long;
 rng(2);  % reprodutibilidade do Scenario 02
 
-%% ===================== Saída ==============================================
+%% ##################### Saída ##############################################
 
 outDir = 'results_scenario_02';
 if ~exist(outDir, 'dir')
     mkdir(outDir);
 end
 
-%% ===================== Cenário do usuário =================================
+%% ##################### Cenário do usuário #################################
 
 lat = -22.8596582;      % [graus]
 lon = -43.2303236;      % [graus]
@@ -23,7 +23,7 @@ h   = 10;               % [m]
 
 UserPosition = llh2ecef(lat, lon, h);   % [x y z] ECEF [m]
 
-%% ===================== Parâmetros globais =================================
+%% ##################### Parâmetros globais #################################
 
 c     = 3e8;        % [m/s]
 beta  = 1.023e6;    % [Hz] largura de banda do código GPS C/A
@@ -35,7 +35,7 @@ epsilon      = 1.; % precisão-alvo [m]
 scenarioNames = {'HAPS','LEO','MEO','GEO'};
 numScenarios = numel(scenarioNames);
 
-%% ===================== Tabela de candidatos disponíveis ===================
+%% ##################### Tabela de candidatos disponíveis ##################
 
 Arquitetura = ["HAPS"; "LEO"; "MEO"; "GEO"];
 
@@ -72,7 +72,7 @@ disp(Tparam);
 writetable(Tparam, fullfile(outDir, ...
     'tabela_parametros_candidatos_disponiveis.csv'));
 
-%% ===================== Parâmetros do problema de seleção ===================
+%% ##################### Parâmetros do problema de seleção ##############
 
 Tsel_param = table( ...
     CN0_ref_dBHz, ...
@@ -92,7 +92,7 @@ disp(Tsel_param);
 writetable(Tsel_param, fullfile(outDir, ...
     'tabela_parametros_problema_selecao.csv'));
 
-%% ===================== Geração do conjunto candidato =======================
+%% ##################### Geração do conjunto candidato #####################
 
 SatPool   = [];
 archLabel = strings(0,1);
@@ -162,7 +162,7 @@ disp(Tpdop_arch);
 writetable(Tpdop_arch, fullfile(outDir, ...
     'tabela_pdop_conjuntos_candidatos.csv'));
 
-%% ===================== Melhor subconjunto inicial com 4 dispositivos =======
+%% ##################### Melhor subconjunto inicial com 4 dispositivos #############
 
 fprintf('\n===== Busca do melhor subconjunto inicial com 4 dispositivos =====\n');
 
@@ -212,7 +212,7 @@ fprintf('\n');
 fprintf('BCRB inicial: %.6f m\n', currentBCRB);
 fprintf('PDOP inicial: %.4f\n', currentPDOP);
 
-%% ===================== Histórico do algoritmo ==============================
+%% ##################### Histórico do algoritmo #####################
 
 Iteracao      = 0;
 DispositivoAdicionado = 0;
@@ -225,7 +225,7 @@ N_LEO_hist    = sum(archLabel(selected) == "LEO");
 N_MEO_hist    = sum(archLabel(selected) == "MEO");
 N_GEO_hist    = sum(archLabel(selected) == "GEO");
 
-%% ===================== Algoritmo guloso ===================================
+%% ##################### Algoritmo guloso ###################################
 
 iter = 0;
 
@@ -288,7 +288,7 @@ end
 
 atingiu_meta = currentBCRB <= epsilon;
 
-%% ===================== Resultados finais ==================================
+%% ##################### Resultados finais #####################
 
 N_HAPS_final = sum(archLabel(selected) == "HAPS");
 N_LEO_final  = sum(archLabel(selected) == "LEO");
@@ -367,7 +367,7 @@ disp(Titer);
 writetable(Titer, fullfile(outDir, ...
     'tabela_historico_algoritmo_guloso.csv'));
 
-%% ===================== Figura 7.3 - Evolução do BCRB =======================
+%% ##################### Figura 7.3 - Evolução do BCRB #####################
 
 figure;
 hold on;
@@ -391,7 +391,7 @@ exportgraphics(gcf, fullfile(outDir, ...
     'fig_7_3_evolucao_bcrb_algoritmo_guloso.png'), ...
     'Resolution', 300);
 
-%% ===================== Figura 7.4 - Composição selecionada =================
+%% ##################### Figura 7.4 - Composição selecionada ##############
 
 figure;
 hold on;
@@ -423,7 +423,7 @@ exportgraphics(gcf, fullfile(outDir, ...
     'fig_7_4_composicao_configuracao_selecionada.png'), ...
     'Resolution', 300);
 
-%% ===================== Salvar variáveis ===================================
+%% ##################### Salvar variáveis ###################################
 
 save(fullfile(outDir, 'scenario_02_results.mat'), ...
     'CN0_ref_dBHz', ...
@@ -445,10 +445,10 @@ save(fullfile(outDir, 'scenario_02_results.mat'), ...
     'PDOP_hist', ...
     'TotalSelecionado');
 
-%% ===================== FUNÇÕES LOCAIS =====================================
+%% ##################### FUNÇÕES LOCAIS ###################################==
 
 function ecef = llh2ecef(lat_deg, lon_deg, h_m)
-% LLH2ECEF  Converte coordenadas geodésicas WGS-84 para ECEF [x y z].
+%   Converte coordenadas geodésicas WGS-84 para ECEF [x y z].
 
     a  = 6378137.0;
     f  = 1/298.257223563;
@@ -470,7 +470,7 @@ function ecef = llh2ecef(lat_deg, lon_deg, h_m)
 end
 
 function out = generateGeometryPDOP(UserPosition, M, varargin)
-% GENERATEGEOMETRYPDOP Gera geometria sintética visível com PDOP controlado.
+%  Gera geometria sintética visível com PDOP controlado.
 
     p = inputParser;
     p.addParameter('ElevMaskDeg', 5, @(x) isnumeric(x) && isscalar(x) && x >= 0 && x < 90);
